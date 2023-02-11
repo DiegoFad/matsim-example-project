@@ -62,6 +62,7 @@ import org.matsim.core.config.groups.QSimConfigGroup;
 import org.matsim.core.controler.AbstractModule;
 import org.matsim.core.controler.Controler;
 import org.matsim.core.events.handler.BasicEventHandler;
+import org.matsim.core.mobsim.framework.listeners.MobsimBeforeCleanupListener;
 import org.matsim.core.scenario.ScenarioUtils;
 import org.matsim.vehicles.Vehicle;
 import org.matsim.vehicles.VehicleType;
@@ -78,7 +79,7 @@ import java.util.Map;
 
 /**
  * this is an example of how to run MATSim with the UrbanEV module which inserts charging activities for all legs which use a EV.
- * By default, {@link playground.vsp.ev.ElectricFleetUpdater} is used, which declares any vehicle as an EV
+ * By default, {@link} is used, which declares any vehicle as an EV
  * that has a vehicle type with HbefaTechnology set to 'electricity'.
  * At the beginning of each iteration, the consumption is estimated. Charging is planned to take place during the latest possible activity in the agent's plan
  * that fits certain criteria (ActivityType and minimum duration) and takes place before the estimated SOC drops below a defined threshold.
@@ -88,7 +89,7 @@ public class RunMyUrbanEVExample{
 	public static void main(String[] args) {
 		EvConfigGroup evConfigGroup = new EvConfigGroup();
 		evConfigGroup.timeProfiles = true;
-		evConfigGroup.chargersFile = "chargers.xml";
+		evConfigGroup.chargersFile = "chargers_2.xml";
 
 		String pathToConfig = args.length > 0 ?
 				args[0] :
@@ -113,11 +114,16 @@ public class RunMyUrbanEVExample{
 			@Override public void install(){
 				//this.addEventHandlerBinding().toInstance( new TeleportationArrivalEventHandler(){
 				this.addEventHandlerBinding().toInstance(new ChargingDetourHandler());
+				this.addMobsimListenerBinding().toInstance(new EVDetourMobsimListener());
+				this.bind(ChargingDetourHandler.class);
+
+
 					//@Override public void handleEvent( TeleportationArrivalEvent event ){
 						//log.info( event );
 						// (the "travelled" event)
 					//}
 				//} );
+
 			}
 		} );
 
