@@ -35,12 +35,18 @@ public class ChargingDetourHandler implements TeleportationArrivalEventHandler,
     @Inject
     IterationCounter iterationCounter;
 
+    // check if person is charging, not very well named better rename to pluginTripDone or something like this
     private final Map<Id<Person>, Boolean> personsToCharging = new HashMap<>();
+    // check if person has a vehicle that is plugged in
     private final Map<Id<Person>, Boolean> personsToPlugin = new HashMap<>();
+    //Map persons to charging process instances
     static final Map<Id<Person>,List<ChargingProcess>> personsToChargingProcesses = new HashMap<>();
 
     public Map<Id<Person>, List<ChargingProcess>> getPersonsToChargingProcesses(){return personsToChargingProcesses;}
 
+    /*
+    Set the plugin or plugout trip distance to the distance within the teleportationArrivalEvent
+     */
     @Override
     public void handleEvent(TeleportationArrivalEvent teleportationArrivalEvent) {
 
@@ -59,6 +65,10 @@ public class ChargingDetourHandler implements TeleportationArrivalEventHandler,
         }
     }
 
+
+    /*
+
+     */
     @Override
     public void handleEvent(ActivityStartEvent activityStartEvent) {
 
@@ -66,7 +76,7 @@ public class ChargingDetourHandler implements TeleportationArrivalEventHandler,
         personsToPlugin.putIfAbsent(activityStartEvent.getPersonId(), false);
 
         if(activityStartEvent.getActType().endsWith("plugin interaction")){
-
+            //set Plugin time
             List<ChargingProcess> chargingProcesses = personsToChargingProcesses.get(activityStartEvent.getPersonId());
             if(chargingProcesses == null){chargingProcesses = new ArrayList<>();}
             //Create new Charging Process
@@ -78,6 +88,7 @@ public class ChargingDetourHandler implements TeleportationArrivalEventHandler,
             chargingProcess.setPluginTime(activityStartEvent.getTime());
 
         }
+        //set activity link id
         if(personsToCharging.get(activityStartEvent.getPersonId()) && personsToPlugin.get(activityStartEvent.getPersonId())){
             List<ChargingProcess> chargingProcesses = personsToChargingProcesses.get(activityStartEvent.getPersonId());
             ChargingProcess chargingProcess = chargingProcesses.get(chargingProcesses.size()-1);
@@ -87,9 +98,12 @@ public class ChargingDetourHandler implements TeleportationArrivalEventHandler,
         }
     }
 
+
     @Override
     public void handleEvent(ActivityEndEvent activityEndEvent) {
+        //set PLugout time
         if(activityEndEvent.getActType().endsWith("plugout interaction")) {
+            //plugout persons vehicle
             personsToPlugin.put(activityEndEvent.getPersonId(), false);
             List<ChargingProcess> chargingProcesses = personsToChargingProcesses.get(activityEndEvent.getPersonId());
             ChargingProcess chargingProcess = chargingProcesses.get(chargingProcesses.size()-1);
@@ -127,6 +141,7 @@ public class ChargingDetourHandler implements TeleportationArrivalEventHandler,
         personsToChargingProcesses.clear();
     }
 
+    // save information needed in instances of static class
     public static class ChargingProcess{
 //TODO Map vehicle ID to person ID to get access to Charger ID
         private Id<Charger> chargerId;

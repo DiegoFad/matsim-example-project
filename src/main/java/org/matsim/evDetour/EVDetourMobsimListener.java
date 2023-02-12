@@ -26,6 +26,7 @@ public class EVDetourMobsimListener implements MobsimBeforeCleanupListener {
     private IterationCounter iterationCounter;
 
 
+    // print information of all charging processes to csv after each iteration
     @Override
     public void notifyMobsimBeforeCleanup(MobsimBeforeCleanupEvent e) {
         CSVPrinter csvPrinter;
