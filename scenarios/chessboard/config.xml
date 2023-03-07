@@ -17,11 +17,11 @@
 	</module>
 
 	<module name="network">
-		<param name="inputNetworkFile" value="network_test.xml" />
+		<param name="inputNetworkFile" value="network.xml" />
 	</module>
 
 	<module name="facilities">
-		<param name="inputFacilitiesFile" value="facilities_test.xml" />
+		<param name="inputFacilitiesFile" value="facilities.xml" />
 		<param name="facilitiesSource" value="fromFile"/>
 	</module>
 
@@ -48,9 +48,6 @@
 			</parameterset>
 			<parameterset type="modeParams">
 				<param name="mode" value="walk"/>
-			</parameterset>
-			<parameterset type="modeParams">
-				<param name="mode" value="bike"/>
 			</parameterset>
 
 			<parameterset type="activityParams">
@@ -99,10 +96,10 @@
 			<param name="weight" value="0.9"/>
 		</parameterset>
 
-<!--		<parameterset type="strategysettings">-->
-<!--			<param name="strategyName" value="ReRoute"/>-->
-<!--			<param name="weight" value="0.1"/>-->
-<!--		</parameterset>-->
+		<parameterset type="strategysettings">
+			<param name="strategyName" value="ReRoute"/>
+			<param name="weight" value="0.1"/>
+		</parameterset>
 	</module>
 
 </config>
