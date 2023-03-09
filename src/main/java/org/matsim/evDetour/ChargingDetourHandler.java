@@ -20,6 +20,7 @@ import org.matsim.core.controler.IterationCounter;
 import org.matsim.core.controler.OutputDirectoryHierarchy;
 import org.matsim.core.mobsim.framework.events.MobsimBeforeCleanupEvent;
 import org.matsim.core.mobsim.framework.listeners.MobsimBeforeCleanupListener;
+import org.matsim.core.network.NetworkUtils;
 
 
 import java.io.IOException;
@@ -47,6 +48,8 @@ public class ChargingDetourHandler implements TeleportationArrivalEventHandler,
     /*
     Set the plugin or plugout trip distance to the distance within the teleportationArrivalEvent
      */
+    //TODO the trip from arrival point to facility is considered as detour. Maybe just substract linklength*0.65 from detour
+    //TODO Question: D
     @Override
     public void handleEvent(TeleportationArrivalEvent teleportationArrivalEvent) {
 
@@ -61,6 +64,9 @@ public class ChargingDetourHandler implements TeleportationArrivalEventHandler,
             else {
                 chargingProcess.setPlugoutTripDistance(teleportationArrivalEvent.getDistance());
                 personsToCharging.put(teleportationArrivalEvent.getPersonId(), false);
+                if(chargingProcess.chargingLinkId == chargingProcess.activityLinkId) {
+                    chargingProcess.setPlugoutTripDistance(0.0);
+                }
             }
         }
     }
@@ -94,6 +100,9 @@ public class ChargingDetourHandler implements TeleportationArrivalEventHandler,
             ChargingProcess chargingProcess = chargingProcesses.get(chargingProcesses.size()-1);
             if(chargingProcess.activityLinkId == null) {
                 chargingProcess.setActivityLinkId(activityStartEvent.getLinkId());
+            }
+            if(chargingProcess.chargingLinkId == chargingProcess.activityLinkId){
+                chargingProcess.setPluginTripDistance(0.0);
             }
         }
     }
