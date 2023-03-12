@@ -1,0 +1,21 @@
+<!DOCTYPE chargers SYSTEM "http://matsim.org/files/dtd/chargers_v1.dtd">
+
+<chargers>
+	<charger id="1" link="172" plug_power="3.7" plug_count="2"/>
+	<charger id="2" link="173" plug_power="3.7" plug_count="1"/>
+	<charger id="3" link="179" plug_power="22.0" plug_count="1"/>
+	<charger id="4" link="180" plug_power="11.0" plug_count="1"/>
+	<charger id="5" link="23" plug_power="3.7" plug_count="3"/>
+	<charger id="6" link="3" plug_power="22.0" plug_count="1"/>
+	<charger id="7" link="32" plug_power="3.7" plug_count="3"/>
+	<charger id="8" link="4" plug_power="3.7" plug_count="2"/>
+	<charger id="9" link="5" plug_power="11.0" plug_count="1"/>
+	<charger id="10" link="6" plug_power="11.0" plug_count="1"/>
+	<charger id="11" link="8" plug_power="3.7" plug_count="3"/>
+	<charger id="12" link="85" plug_power="3.7" plug_count="1"/>
+	<charger id="13" link="86" plug_power="22.0" plug_count="2"/>
+	<charger id="14" link="87" plug_power="3.7" plug_count="2"/>
+	<charger id="15" link="95" plug_power="22.0" plug_count="1"/>
+	<charger id="16" link="97" plug_power="3.7" plug_count="2"/>
+
+</chargers>
