@@ -49,7 +49,7 @@ public class ChargingDetourHandler implements TeleportationArrivalEventHandler,
     Set the plugin or plugout trip distance to the distance within the teleportationArrivalEvent
      */
     //TODO the trip from arrival point to facility is considered as detour. Maybe just substract linklength*0.65 from detour
-    //TODO Question: D
+    //TODO Adapt Access/Egress
     @Override
     public void handleEvent(TeleportationArrivalEvent teleportationArrivalEvent) {
 
